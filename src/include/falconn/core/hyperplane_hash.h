@@ -153,20 +153,28 @@ class HyperplaneHashBase {
       throw LSHFunctionError("Number of hash tables must be at least 1.");
     }
 
-    // use the STL Mersenne Twister for random numbers
+   // use the STL Mersenne Twister for random numbers
     std::mt19937_64 gen(seed_);
     std::normal_distribution<CoordinateType> gauss(0.0, 1.0);
-
+    std::uniform_int_distribution<int> distribution(0, dim_ -1);
+    std::discrete_distribution<int> discreet {-1,1};
+    
     hyperplanes_.resize(k_ * l_, dim_);
 
-    std::vector<CoordinateType> row_norms(k_ * l_, 0.0);
-
-    for (int ii = 0; ii < dim_; ++ii) {
+    //std::vector<CoordinateType> row_norms(k_ * l_, 0.0);
+    
+    for (int column=0; column<dim_;++column){
+        int row=distribution(gen);
+        hyperplanes_(row, column) = discreet(gen);
+    }
+  /*  for (int ii = 0; ii < dim_; ++ii) {
       for (int jj = 0; jj < k_ * l_; ++jj) {
         hyperplanes_(jj, ii) = gauss(gen);
         row_norms[jj] += hyperplanes_(jj, ii) * hyperplanes_(jj, ii);
       }
     }
+    
+    
 
     for (int plane = 0; plane < k_ * l_; ++plane) {
       row_norms[plane] = std::sqrt(row_norms[plane]);
@@ -177,7 +185,7 @@ class HyperplaneHashBase {
       for (int ii = 0; ii < dim_; ++ii) {
         hyperplanes_(plane, ii) /= row_norms[plane];
       }
-    }
+    }*/
   }
 
   int dim_;
