@@ -156,7 +156,7 @@ class HyperplaneHashBase {
    // use the STL Mersenne Twister for random numbers
     std::mt19937_64 gen(seed_);
     std::normal_distribution<CoordinateType> gauss(0.0, 1.0);
-    std::uniform_int_distribution<int> distribution(0, dim_ -1);
+    std::uniform_int_distribution<int> distribution(0, k_*l_ -1);
     std::discrete_distribution<int> discreet {-1,1};
     
     hyperplanes_.resize(k_ * l_, dim_);
