@@ -169,14 +169,32 @@ for (int ii = 0; ii < k_ * l_; ++ii) {
       }
     }
 
-    int a[]={-1,1};
+    CoordinateType a[]={(CoordinateType)-1.0,(CoordinateType)1.0};
 
     for (int col=0; col < dim_ ; ++col) {
         int row=distribution(gen);
         hyperplanes_(row, col) = a[rand() % 2];
     }
 
-    // std::cout << '\n' << "matrix\n";
+
+    // for (int ii = 0; ii < dim_; ++ii) {
+    //   for (int jj = 0; jj < k_ * l_; ++jj) {
+    //     row_norms[jj] += hyperplanes_(jj, ii) * hyperplanes_(jj, ii);
+    //   }
+    // }
+
+    // for (int plane = 0; plane < k_ * l_; ++plane) {
+    //   row_norms[plane] = std::sqrt(row_norms[plane]);
+    // }
+
+    // // Normalize the hyperplanes
+    // for (int plane = 0; plane < k_ * l_; ++plane) {
+    //   for (int ii = 0; ii < dim_; ++ii) {
+    //     hyperplanes_(plane, ii) /= row_norms[plane];
+    //   }
+    // }
+
+    // std::cout << '\n' <<"matrix "<<rand() <<"\n";
     // for (int ii = 0; ii < k_ * l_; ++ii) {
     //   for (int jj = 0; jj < dim_; ++jj) {
        
