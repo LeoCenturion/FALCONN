@@ -8,6 +8,8 @@
 #include <random>
 #include <vector>
 
+#include <iostream>
+
 #include <Eigen/Dense>
 
 #include "data_storage.h"
@@ -155,18 +157,34 @@ class HyperplaneHashBase {
 
    // use the STL Mersenne Twister for random numbers
     std::mt19937_64 gen(seed_);
-    std::normal_distribution<CoordinateType> gauss(0.0, 1.0);
-    std::uniform_int_distribution<int> distribution(0, k_*l_ -1);
-    std::discrete_distribution<int> discreet {-1,1};
-    
+    //std::normal_distribution<CoordinateType> gauss(0.0, 1.0);
+    std::uniform_int_distribution<int> distribution(0, dim_ -1);
     hyperplanes_.resize(k_ * l_, dim_);
 
     //std::vector<CoordinateType> row_norms(k_ * l_, 0.0);
     
-    for (int column=0; column<dim_;++column){
-        int row=distribution(gen);
-        hyperplanes_(row, column) = discreet(gen);
+for (int ii = 0; ii < k_ * l_; ++ii) {
+      for (int jj = 0; jj < dim_; ++jj) {
+        hyperplanes_(ii, jj) = 0;
+      }
     }
+
+    int a[]={-1,1};
+
+    for (int row=0; row < k_ * l_ ; ++row){
+        int col=distribution(gen);
+        hyperplanes_(row, col) = a[rand() % 2];
+    }
+
+    std::cout << '\n' << "matrix\n";
+    for (int ii = 0; ii < k_ * l_; ++ii) {
+      for (int jj = 0; jj < dim_; ++jj) {
+       
+        std::cout << hyperplanes_(ii, jj) << ' ' ;
+      }
+      std::cout << '\n';
+    }
+    std::cout << '\n';
   /*  for (int ii = 0; ii < dim_; ++ii) {
       for (int jj = 0; jj < k_ * l_; ++jj) {
         hyperplanes_(jj, ii) = gauss(gen);
